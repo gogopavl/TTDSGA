@@ -8,11 +8,6 @@ _url = "https://{}.api.cognitive.microsoft.com/vision/v2.0/analyze".format(_regi
 _key = "fed5d823105447a38a310a001b73dcd6"
 _maxNumRetries = 2
 
-def main():
-    urlImage = 'https://media.wired.com/photos/5b86fce8900cb57bbfd1e7ee/master/pass/Jaguar_I-PACE_S_Indus-Silver_065.jpg'
-    results = getImageResults(urlImage)
-    print(results)
-
 def getImageResults(urlImage):
     
     # API parameters for recognition found in:

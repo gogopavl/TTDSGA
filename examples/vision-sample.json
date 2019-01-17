@@ -1,0 +1,64 @@
+{
+    "tags": [
+        {
+            "name": "indoor",
+            "confidence": 0.9087210893630981
+        },
+        {
+            "name": "person",
+            "confidence": 0.9087210893630981
+        },
+        {
+            "name": "tournament",
+            "confidence": 0.5806841846156919
+        },
+        {
+            "name": "volleyball",
+            "confidence": 0.5650028934641889
+        },
+        {
+            "name": "lego",
+            "confidence": 0.2864314165292852
+        },
+        {
+            "name": "game",
+            "confidence": 0.23625330248845075
+        }
+    ],
+    "description": {
+        "tags": [
+            "indoor",
+            "table",
+            "front",
+            "man",
+            "sitting",
+            "office",
+            "computer",
+            "desk",
+            "black",
+            "clock",
+            "young",
+            "display",
+            "group",
+            "woman",
+            "standing",
+            "playing",
+            "room",
+            "food",
+            "white",
+            "people"
+        ],
+        "captions": [
+            {
+                "text": "a group of people sitting at a desk",
+                "confidence": 0.7748940483375355
+            }
+        ]
+    },
+    "requestId": "3bd78c1f-8e51-4d5f-a93f-06a113550dbe",
+    "metadata": {
+        "width": 1200,
+        "height": 675,
+        "format": "Jpeg"
+    }
+}

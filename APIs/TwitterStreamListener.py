@@ -1,10 +1,11 @@
 import sys, time, json
 import tweepy
-import secrets
 from collections import namedtuple
+from Tweet import Tweet
 from MS_Vision import getImageResults
 
-class MyStreamListener(tweepy.StreamListener):
+
+class TwitterStreamListener(tweepy.StreamListener):
     _maxTweets = 1
     _tweetCount = 0
     
@@ -18,19 +19,24 @@ class MyStreamListener(tweepy.StreamListener):
         if media is None:
             return
 
+        self._tweetCount += 1
+
         tweet = Tweet()
         tweet.Text = status.text
         tweet.Url = media["url"]
         tweet.ImageUrl = media["media_url_https"]
+        
+        print("***** TWEET #{0} *****".format(self._tweetCount))
+        print(tweet.Text)
+        print(tweet.ImageUrl)
+        print(tweet.Url)
         
         # Call vision API
         vision_json = getImageResults(tweet.ImageUrl)
         vision = json.loads(vision_json, object_hook=lambda obj: namedtuple('result', obj.keys())(*obj.values()))
         
         ## Display to console for now
-        print(tweet.Url)
-        print(tweet.Text)
-        print(tweet.ImageUrl)
+        print("***** VISION RESULTS *****")
         print("Tags:")
         for tag in vision.tags:
             print("{0:.00%} : {1}".format(tag.confidence, tag.name))
@@ -38,11 +44,12 @@ class MyStreamListener(tweepy.StreamListener):
         for caption in vision.description.captions:
             print("{0:.00%} : {1}".format(caption.confidence, caption.text))
 
+        print("\n")
         ## Check count to limit utilization while in development
-        self._tweetCount += 1
+        
         if self._tweetCount >= self._maxTweets:
             return False
-
+            
     def on_error(self, status_code):
         print("Error: {0}".format(status_code))
         if status_code == 420:
@@ -82,41 +89,3 @@ class MyStreamListener(tweepy.StreamListener):
             return
         
         return media
-
-class Tweet:    
-    def __init__(self, text=None, url=None, imageUrl=None, hashTags=[]):
-            self.Text = text
-            self.Url = url
-            self.ImageUrl = imageUrl
-            self.Hashtags = hashTags
-            return
-
-class StreamBuilder():
-    # From http://techland.time.com/2009/06/08/the-500-most-frequently-used-words-on-twitter/
-    topTerms = ['the','i','to','a','and','is','in','it','you','of','tinyurl.com','for','on','my','\'s','that','at','with','me','do']
-            
-    def BuildApiClient(self):
-        auth = tweepy.OAuthHandler(secrets.twitterApiKey, secrets.twitterApiSecret)
-        auth.set_access_token(secrets.twitterAccessToken, secrets.twitterAccessTokenSecret)
-        return tweepy.API(auth)
-
-    def StartSampleStream(self, streamListener, maxTweets):        
-        api = self.BuildApiClient()
-        myStream = tweepy.Stream(auth = api.auth, listener=streamListener)
-        myStream.sample()        
-        return
-
-    def StartFilteredStream(self, streamListener, terms):
-        api = self.BuildApiClient()
-        myStream = tweepy.Stream(auth = api.auth, listener=streamListener)
-        
-        if len(terms == 0):
-            # Use a few of the top words to get a set of tweets
-            terms = self.topTerms[0:3]
-
-        myStream.filter(track=terms, languages=["en"])
-        return
-
-stream = StreamBuilder()
-StreamListener = MyStreamListener()
-stream.StartSampleStream(StreamListener, 1)
