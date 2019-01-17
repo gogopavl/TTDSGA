@@ -10,7 +10,11 @@ _maxNumRetries = 2
 
 def main():
     urlImage = 'https://media.wired.com/photos/5b86fce8900cb57bbfd1e7ee/master/pass/Jaguar_I-PACE_S_Indus-Silver_065.jpg'
+    results = getImageResults(urlImage)
+    print(results)
 
+def getImageResults(urlImage):
+    
     # API parameters for recognition found in:
     # https://westus.dev.cognitive.microsoft.com/docs/services/5adf991815e1060e6355ad44/operations/56f91f2e778daf14a499e1fa
     params = { 'visualFeatures' : 'Description,Tags'}
@@ -23,7 +27,7 @@ def main():
     data = None
 
     result = processRequest( json, data, headers, params )
-    print(JSON.dumps(result))
+    return JSON.dumps(result)
 
 
 def processRequest( json, data, headers, params ):
@@ -70,4 +74,4 @@ def processRequest( json, data, headers, params ):
         
     return result
 
-main()
+#main()
