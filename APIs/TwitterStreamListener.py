@@ -2,7 +2,7 @@ import sys, time, json
 import tweepy
 from collections import namedtuple
 from Tweet import Tweet
-from MS_Vision import GetImageResults
+from MSVision import GetImageResults
 
 
 class TwitterStreamListener(tweepy.StreamListener):

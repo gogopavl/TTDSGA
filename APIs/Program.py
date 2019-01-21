@@ -20,5 +20,5 @@ def TestVisionApi():
     print(results)
 
 
-# TestTwitterAndVIsionApi()
+TestTwitterAndVIsionApi()
 # TestVisionApi()
