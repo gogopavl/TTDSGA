@@ -2,7 +2,7 @@ import sys, time, json
 import tweepy
 from collections import namedtuple
 from Tweet import Tweet
-from MS_Vision import getImageResults
+from MS_Vision import GetImageResults
 
 
 class TwitterStreamListener(tweepy.StreamListener):
@@ -26,26 +26,35 @@ class TwitterStreamListener(tweepy.StreamListener):
         tweet.Url = media["url"]
         tweet.ImageUrl = media["media_url_https"]
         
-        print("***** TWEET #{0} *****".format(self._tweetCount))
-        print(tweet.Text)
-        print(tweet.ImageUrl)
-        print(tweet.Url)
+        # print("***** TWEET #{0} *****".format(self._tweetCount))
+        # print(tweet.Text)
+        # print(tweet.ImageUrl)
+        # print(tweet.Url)
         
         # Call vision API
-        vision_json = getImageResults(tweet.ImageUrl)
+        vision_json = GetImageResults(tweet.ImageUrl)
         vision = json.loads(vision_json, object_hook=lambda obj: namedtuple('result', obj.keys())(*obj.values()))
-        
-        ## Display to console for now
-        print("***** VISION RESULTS *****")
-        print("Tags:")
-        for tag in vision.tags:
-            print("{0:.00%} : {1}".format(tag.confidence, tag.name))
-        print("Captions")
-        for caption in vision.description.captions:
-            print("{0:.00%} : {1}".format(caption.confidence, caption.text))
 
-        print("\n")
-        ## Check count to limit utilization while in development
+        tweetjson = status._json
+        tweetID = tweetjson["id"] # Retrieve tweet id
+        
+        # Combine wanted tweet info and vision api output together
+        tweetAndVision = {}
+        tweetAndVision["Tweet"] = {"ID" : tweetID, "Text" : tweet.Text, "URL" : tweet.Url} # What about hashtags?
+        tweetAndVision["VisionResults"] = json.loads(vision_json)
+        print(json.dumps(tweetAndVision)) # Print for now - Will be passed to the II Module
+        
+        # Display to console for now
+        # print("***** VISION RESULTS *****")
+        # print("Tags:")
+        # for tag in vision.tags:
+        #     print("{0:.00%} : {1}".format(tag.confidence, tag.name))
+        # print("Captions")
+        # for caption in vision.description.captions:
+        #     print("{0:.00%} : {1}".format(caption.confidence, caption.text))
+
+        # print("\n")
+        # Check count to limit utilization while in development
         
         if self._tweetCount >= self._maxTweets:
             return False
