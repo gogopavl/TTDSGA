@@ -9,10 +9,16 @@ _key = "fed5d823105447a38a310a001b73dcd6"
 _maxNumRetries = 2
 
 def getImageResults(urlImage):
-    
+    """
+    Method that fetches all relevant textual features produced by the MS Vision image analysis API
+
+    Parameters:
+    urlImage: Image's url
+    """
+        
     # API parameters for recognition found in:
     # https://westus.dev.cognitive.microsoft.com/docs/services/5adf991815e1060e6355ad44/operations/56f91f2e778daf14a499e1fa
-    params = { 'visualFeatures' : 'Description,Tags'}
+    params = { 'visualFeatures' : 'Description,Tags,Categories,Faces', 'details' : 'Celebrities,Landmarks' }
 
     headers = dict()
     headers['Ocp-Apim-Subscription-Key'] = _key
@@ -68,5 +74,3 @@ def processRequest( json, data, headers, params ):
         break
         
     return result
-
-#main()

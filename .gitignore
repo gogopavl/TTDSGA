@@ -143,3 +143,6 @@ dmypy.json
 # Exclude secrets files from public repository
 secrets.py
 
+# Exclude out.json used for testing results from vision api
+out.json
+

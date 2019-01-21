@@ -14,10 +14,11 @@ def TestTwitterAndVIsionApi():
     #stream.StartFilteredStream(maxTweets, ["brexit"])
 
 def TestVisionApi():
-    urlImage = 'https://media.wired.com/photos/5b86fce8900cb57bbfd1e7ee/master/pass/Jaguar_I-PACE_S_Indus-Silver_065.jpg'
+    # urlImage = 'https://media.wired.com/photos/5b86fce8900cb57bbfd1e7ee/master/pass/Jaguar_I-PACE_S_Indus-Silver_065.jpg'
+    urlImage = 'https://fm.cnbc.com/applications/cnbc.com/resources/img/editorial/2018/11/07/105559579-1541619188419rts24ng1.530x298.jpg?v=1541619280'
     results = getImageResults(urlImage)
     print(results)
 
 
-TestTwitterAndVIsionApi()
-#TestVisionApi()
+# TestTwitterAndVIsionApi()
+# TestVisionApi()
