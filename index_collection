@@ -1,7 +1,6 @@
-import json, re
+import re
 import urllib
 import pandas as pd
-from pandas.io.json import json_normalize
 from nltk.stem import PorterStemmer
 
 class index_collection():
@@ -11,11 +10,8 @@ class index_collection():
         self.stem = PorterStemmer()
         self.stopwords = self.listtostop()
         
-    def load(self, link):
-
-        with open('toydata.json') as tdata:
-            red = json.load(tdata)
-        return red 
+    def load(self, instance):
+        return instance
 
     def collect_label(self, tweetandvision):
         """tags: cut above the confidence 50
