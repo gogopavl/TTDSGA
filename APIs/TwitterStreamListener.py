@@ -3,6 +3,7 @@ import tweepy
 from collections import namedtuple
 from Tweet import Tweet
 from MSVision import GetImageResults
+from  index_collection import index_collection
 
 
 class TwitterStreamListener(tweepy.StreamListener):
@@ -13,7 +14,9 @@ class TwitterStreamListener(tweepy.StreamListener):
         self._maxTweets = maxTweets
         self._tweetCount = 0
         super().__init__(api=api)
-
+        #instantiate
+        self._db = index_collection()
+        
     def on_status(self, status):      
         media = self.get_media(status)
         if media is None:
@@ -56,6 +59,10 @@ class TwitterStreamListener(tweepy.StreamListener):
         # print("\n")
         # Check count to limit utilization while in development
         
+        #update DB
+        self._db.update(tweetAndVision)
+
+
         if self._tweetCount >= self._maxTweets:
             return False
             
