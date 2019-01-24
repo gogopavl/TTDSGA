@@ -3,8 +3,9 @@ import urllib
 import pandas as pd
 from pandas.io.json import json_normalize
 from nltk.stem import PorterStemmer
+from AnalysedTweet import AnalysedTweet
 
-class index_collection():
+class IndexCollection():
     """inverted index based on words from caption,tags from API + text"""
     def __init__(self):
         self.iid ={}
@@ -12,8 +13,26 @@ class index_collection():
         self.stopwords = self.listtostop()
         
     def load(self, instance):
+        return instance
 
-        return instance 
+    def add_tweet(self, atweet):
+        tweetID = atweet.Id
+        # Index tweet text
+        for term in filter(None, self.tokenize(atweet.text)):
+            if self.rid_stopword(term):
+                key = self.stemming(term)
+                if key not in self.iid:
+                    self.iid[key] = [tweetID]
+                else:
+                    self.iid[key] = [tweetID]
+        # TODO: index vision results etc.
+        # tags
+        # for tag in vision.tags:
+        #     tag.confidence, tag.name
+        # captions
+        # for caption in vision.description.captions:
+        #     caption.confidence, caption.text
+        
 
     def collect_label(self, tweetandvision):
         """tags: cut above the confidence 50
@@ -31,7 +50,7 @@ class index_collection():
                     self.iid[key].append(tweetID)
 
         #caption from image!
-        caption = tweetandvision['description']['captions'][0]['text']
+        caption = tweetandvision['VisionResults']['description']['captions'][0]['text']
         for term in filter(None, self.tokenize(caption)):
             if self.rid_stopword(term):
             #should save just a bit of calculation in this step
@@ -58,8 +77,8 @@ class index_collection():
     def tokenize(self,content):
         content = content.lower()
         content = re.compile("s\'s\\b").sub("s",content)
-        content = re.compile("'").sub("",t)
-        content = re.compile("[^\W\s]").sub(" ", t)
+        content = re.compile("'").sub("",content)
+        content = re.compile("[^\W\s]").sub(" ", content)
         content = content.split()
         return content
 
@@ -98,7 +117,7 @@ class index_collection():
 
 if __name__ == '__main__':
     directory ='typein_repo_address'
-    db = index_collection()
+    db = IndexCollection()
     db.main(directory)
     print(db.iid)
 #to send to in-memory DB, fill in the git connected to Heroku
