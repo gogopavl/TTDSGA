@@ -1,8 +1,9 @@
 import sys, time, json
 import tweepy
 from collections import namedtuple
-from Tweet import Tweet
-from MS_Vision import getImageResults
+from AnalysedTweet import AnalysedTweet
+from MSVision import analyse_image
+from  IndexCollection import IndexCollection
 
 
 class TwitterStreamListener(tweepy.StreamListener):
@@ -13,7 +14,9 @@ class TwitterStreamListener(tweepy.StreamListener):
         self._maxTweets = maxTweets
         self._tweetCount = 0
         super().__init__(api=api)
-
+        #instantiate
+        self._db = IndexCollection()
+        
     def on_status(self, status):      
         media = self.get_media(status)
         if media is None:
@@ -21,32 +24,25 @@ class TwitterStreamListener(tweepy.StreamListener):
 
         self._tweetCount += 1
 
-        tweet = Tweet()
-        tweet.Text = status.text
-        tweet.Url = media["url"]
-        tweet.ImageUrl = media["media_url_https"]
-        
-        print("***** TWEET #{0} *****".format(self._tweetCount))
-        print(tweet.Text)
-        print(tweet.ImageUrl)
-        print(tweet.Url)
-        
-        # Call vision API
-        vision_json = getImageResults(tweet.ImageUrl)
-        vision = json.loads(vision_json, object_hook=lambda obj: namedtuple('result', obj.keys())(*obj.values()))
-        
-        ## Display to console for now
-        print("***** VISION RESULTS *****")
-        print("Tags:")
-        for tag in vision.tags:
-            print("{0:.00%} : {1}".format(tag.confidence, tag.name))
-        print("Captions")
-        for caption in vision.description.captions:
-            print("{0:.00%} : {1}".format(caption.confidence, caption.text))
+        # Pass wanted data into analysed tweet instance
+        atweet = AnalysedTweet()
+        atweet.Id = status.id
+        atweet.Text = status.text
+        atweet.Url = media["url"]
+        atweet.ImageUrl = media["media_url_https"]
 
-        print("\n")
-        ## Check count to limit utilization while in development
-        
+        vision_json = analyse_image(atweet.ImageUrl)
+        vision = json.loads(vision_json, object_hook=lambda obj: namedtuple('result', obj.keys())(*obj.values()))
+
+        atweet.VisionResults = vision
+
+        # Add tweet to index
+        self._db.add_tweet(atweet)
+
+        #update DB
+        # self._db.update(tweetAndVision)
+
+        # Check count to limit utilization while in development
         if self._tweetCount >= self._maxTweets:
             return False
             
