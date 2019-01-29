@@ -1,64 +1,117 @@
 {
-    "tags": [
-        {
-            "name": "indoor",
-            "confidence": 0.9087210893630981
-        },
-        {
-            "name": "person",
-            "confidence": 0.9087210893630981
-        },
-        {
-            "name": "tournament",
-            "confidence": 0.5806841846156919
-        },
-        {
-            "name": "volleyball",
-            "confidence": 0.5650028934641889
-        },
-        {
-            "name": "lego",
-            "confidence": 0.2864314165292852
-        },
-        {
-            "name": "game",
-            "confidence": 0.23625330248845075
-        }
-    ],
-    "description": {
-        "tags": [
-            "indoor",
-            "table",
-            "front",
-            "man",
-            "sitting",
-            "office",
-            "computer",
-            "desk",
-            "black",
-            "clock",
-            "young",
-            "display",
-            "group",
-            "woman",
-            "standing",
-            "playing",
-            "room",
-            "food",
-            "white",
-            "people"
-        ],
-        "captions": [
-            {
-                "text": "a group of people sitting at a desk",
-                "confidence": 0.7748940483375355
-            }
-        ]
-    },
-    "requestId": "3bd78c1f-8e51-4d5f-a93f-06a113550dbe",
-    "metadata": {
-        "width": 1200,
-        "height": 675,
-        "format": "Jpeg"
-    }
+	"categories": [
+		{
+			"score": 0.6171875,
+			"name": "people_group",
+			"detail": {
+				"celebrities": [
+
+				]
+			}
+		}
+	],
+	"faces": [
+		{
+			"age": 26,
+			"gender": "Male",
+			"faceRectangle": {
+				"left": 291,
+				"top": 42,
+				"width": 41,
+				"height": 41
+			}
+		},
+		{
+			"age": 25,
+			"gender": "Female",
+			"faceRectangle": {
+				"left": 78,
+				"top": 120,
+				"width": 39,
+				"height": 39
+			}
+		},
+		{
+			"age": 27,
+			"gender": "Male",
+			"faceRectangle": {
+				"left": 330,
+				"top": 55,
+				"width": 38,
+				"height": 38
+			}
+		}
+	],
+	"requestId": "fa091908-8d83-42a2-a7ff-edfdf004d83f",
+	"tags": [
+		{
+			"name": "person",
+			"confidence": 0.999612033367157
+		},
+		{
+			"name": "outdoor",
+			"confidence": 0.9923364520072937
+		},
+		{
+			"name": "tree",
+			"confidence": 0.9919919371604919
+		},
+		{
+			"name": "group",
+			"confidence": 0.8613325953483582
+		},
+		{
+			"name": "standing",
+			"confidence": 0.8545185923576355
+		},
+		{
+			"name": "clothing",
+			"confidence": 0.34915230408591064
+		},
+		{
+			"name": "festival",
+			"confidence": 0.1514544747346819
+		},
+		{
+			"name": "street",
+			"confidence": 0.1289520056058816
+		},
+		{
+			"name": "parade",
+			"confidence": 0.09399735702634295
+		}
+	],
+	"metadata": {
+		"width": 592,
+		"height": 482,
+		"format": "Jpeg"
+	},
+	"description": {
+		"tags": [
+			"person",
+			"outdoor",
+			"group",
+			"standing",
+			"child",
+			"young",
+			"holding",
+			"people",
+			"street",
+			"posing",
+			"wearing",
+			"umbrella",
+			"boy",
+			"city",
+			"man",
+			"walking",
+			"rain",
+			"court"
+		],
+		"captions": [
+			{
+				"confidence": 0.9752452867554091,
+				"text": "a group of people posing for the camera"
+			}
+		]
+	}
 }
